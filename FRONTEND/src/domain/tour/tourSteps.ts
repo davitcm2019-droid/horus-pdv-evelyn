@@ -287,13 +287,13 @@ export const TOUR_STEPS_BY_PAGE: Partial<Record<TourPageKey, TourStep[]>> = {
     },
   ]),
 
-  fiscal: withCommonPageSteps("fiscal", [
+  cupom: withCommonPageSteps("cupom", [
     {
-      id: "fiscal-development",
-      title: "Módulo em desenvolvimento",
+      id: "cupom-config",
+      title: "Configuração do cupom",
       description:
-        "Esta área indica o caminho da integração fiscal e permanece sinalizada até a homologação.",
-      selectors: [pageSelector("fiscal", ".card"), pageSelector("fiscal", "section")],
+        "Ajuste largura do papel, mensagens e a integração com a impressora. Use a prévia e a impressão de teste para validar.",
+      selectors: [pageSelector("cupom", ".card"), pageSelector("cupom", "section")],
     },
   ]),
 

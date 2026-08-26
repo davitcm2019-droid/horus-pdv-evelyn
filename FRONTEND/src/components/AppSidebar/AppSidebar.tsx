@@ -37,7 +37,7 @@ export type PageKey =
   | "historico-vendas"
   | "relatorios"
   | "vendas"
-  | "fiscal"
+  | "cupom"
   | "pagamentos"
   | "estoque"
   | "caixa"
@@ -249,10 +249,10 @@ export default function AppSidebar({
             <SidebarSectionTitle label="Gestão Avançada" collapsed={collapsed} />
             <SidebarItem
               icon={<Receipt size={20} />}
-              label="Fiscal NFC-e / NF-e"
-              active={activePage === "fiscal"}
+              label="Cupom Não Fiscal"
+              active={activePage === "cupom"}
               collapsed={collapsed}
-              onClick={() => handleChangePage("fiscal")}
+              onClick={() => handleChangePage("cupom")}
             />
             <SidebarItem
               icon={<CreditCard size={20} />}

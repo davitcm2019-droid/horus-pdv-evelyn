@@ -56,10 +56,10 @@ const shortcuts = [
 
 const marketShortcuts = [
   {
-    title: "Fiscal NFC-e / NF-e",
-    description: "Emissão, XML, DANFE e contingência",
+    title: "Cupom Não Fiscal",
+    description: "Layout do cupom e integração com impressora",
     icon: Receipt,
-    page: "fiscal" as PageKey,
+    page: "cupom" as PageKey,
   },
   {
     title: "Pagamentos Integrados",

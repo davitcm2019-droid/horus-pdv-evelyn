@@ -4,6 +4,8 @@
   * Entradas esperadas: recebe dados da venda, itens, empresa e callbacks para fechar/imprimir o recibo.
 */
 import { Printer, ReceiptText, X } from "lucide-react";
+import { loadCupomConfig } from "@/domain/cupom/cupomConfig";
+import { buildReceiptPrintHtml, formatReceiptDate } from "@/domain/cupom/receiptHtml";
 
 export type PaymentType = "dinheiro" | "pix" | "debito" | "credito" | string;
 
@@ -44,118 +46,6 @@ export type SaleReceipt = {
   items: SaleReceiptItem[];
 };
 
-function formatReceiptDate(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function buildReceiptPrintHtml(receipt: SaleReceipt, formatMoney: (value: number) => string) {
-  const companyName =
-    receipt.company?.fantasyName || receipt.company?.corporateName || "Evelyn Acessórios";
-  const companyAddress = [
-    receipt.company?.address,
-    receipt.company?.number,
-    receipt.company?.neighborhood,
-  ]
-    .filter(Boolean)
-    .join(", ");
-  const companyCity = [receipt.company?.city, receipt.company?.uf].filter(Boolean).join(" - ");
-  const rows = receipt.items
-    .map(
-      (item, index) => `
-        <div class="item">
-          <div class="line grid">
-            <span>${String(index + 1).padStart(2, "0")}</span>
-            <span>${escapeHtml(item.name)}</span>
-            <span class="right">${item.quantity}</span>
-            <span class="right">${formatMoney(item.total)}</span>
-          </div>
-          <div class="item-meta">${escapeHtml(item.code)} - UN ${formatMoney(item.unitPrice)}</div>
-        </div>
-      `,
-    )
-    .join("");
-
-  return `<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <title>Cupom ${escapeHtml(receipt.saleNumber)}</title>
-    <style>
-      @page { size: 80mm auto; margin: 4mm; }
-      * { box-sizing: border-box; }
-      body { margin: 0; color: #020617; font: 12px/1.25 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-      .receipt { width: 72mm; margin: 0 auto; }
-      .center { text-align: center; }
-      .brand { font-size: 14px; font-weight: 800; text-transform: uppercase; }
-      .divider { border-top: 1px dashed #475569; margin: 10px 0; }
-      .line { display: flex; justify-content: space-between; gap: 8px; }
-      .grid { display: grid; grid-template-columns: 24px 1fr 34px 54px; gap: 4px; }
-      .right { text-align: right; }
-      .bold { font-weight: 800; }
-      .item { margin-top: 7px; }
-      .item-meta { padding-left: 28px; font-size: 11px; }
-    </style>
-  </head>
-  <body>
-    <main class="receipt">
-      <section class="center">
-        <div class="brand">${escapeHtml(companyName)}</div>
-        <div>${escapeHtml(receipt.company?.corporateName || companyName)}</div>
-        <div>CNPJ: ${escapeHtml(receipt.company?.cnpj || "-")}</div>
-        ${companyAddress ? `<div>${escapeHtml(companyAddress)}</div>` : ""}
-        ${companyCity ? `<div>${escapeHtml(companyCity)}</div>` : ""}
-        <div>Telefone: ${escapeHtml(receipt.company?.phone || receipt.company?.sacPhone || "-")}</div>
-      </section>
-      <div class="divider"></div>
-      <section>
-        <div>CUPOM NAO FISCAL</div>
-        <div>Venda: ${escapeHtml(receipt.saleNumber)}</div>
-        <div>Emissao: ${escapeHtml(formatReceiptDate(receipt.issuedAt))}</div>
-        <div>Operador: ${escapeHtml(receipt.operatorName || "-")}</div>
-        <div>CPF/CNPJ consumidor: ${escapeHtml(receipt.customerCpf || "-")}</div>
-      </section>
-      <div class="divider"></div>
-      <section>
-        <div class="grid bold"><span>#</span><span>ITEM</span><span class="right">QTD</span><span class="right">TOTAL</span></div>
-        ${rows}
-      </section>
-      <div class="divider"></div>
-      <section>
-        <div class="line bold"><span>TOTAL</span><span>R$ ${formatMoney(receipt.subtotal)}</span></div>
-        <div class="line"><span>Pagamento</span><span>${escapeHtml(receipt.paymentLabel || "-")}</span></div>
-        ${
-          receipt.paymentType === "dinheiro"
-            ? `<div class="line"><span>Valor recebido</span><span>R$ ${formatMoney(receipt.cashGiven)}</span></div>
-               <div class="line"><span>Troco</span><span>R$ ${formatMoney(receipt.change)}</span></div>`
-            : ""
-        }
-      </section>
-      <div class="divider"></div>
-      <p class="center">Obrigado pela preferencia.</p>
-    </main>
-    <script>window.addEventListener("load", () => window.print());</script>
-  </body>
-</html>`;
-}
-
 export default function ReceiptPreviewModal({
   receipt,
   formatMoney,
@@ -175,12 +65,15 @@ export default function ReceiptPreviewModal({
     .filter(Boolean)
     .join(", ");
   const companyCity = [receipt.company?.city, receipt.company?.uf].filter(Boolean).join(" - ");
+  const cupomConfig = loadCupomConfig();
+  const headerMessage = cupomConfig.headerMessage.trim();
+  const footerMessage = cupomConfig.footerMessage.trim();
 
   const printReceipt = () => {
     const popup = window.open("", "_blank", "width=420,height=720");
     if (!popup) return;
     popup.document.open();
-    popup.document.write(buildReceiptPrintHtml(receipt, formatMoney));
+    popup.document.write(buildReceiptPrintHtml(receipt, formatMoney, cupomConfig));
     popup.document.close();
   };
 
@@ -211,7 +104,10 @@ export default function ReceiptPreviewModal({
           <div className="p-4">
             <div className="mx-auto w-full max-w-[360px] border border-border-secondary bg-white px-5 py-4 font-mono text-[12px] leading-tight text-slate-950 shadow-sm">
               <div className="text-center">
-                <p className="text-sm font-bold uppercase">{companyName}</p>
+                {cupomConfig.showStoreName ? (
+                  <p className="text-sm font-bold uppercase">{companyName}</p>
+                ) : null}
+                {headerMessage ? <p>{headerMessage}</p> : null}
                 <p>{receipt.company?.corporateName || companyName}</p>
                 <p>CNPJ: {receipt.company?.cnpj || "-"}</p>
                 {companyAddress ? <p>{companyAddress}</p> : null}
@@ -278,8 +174,12 @@ export default function ReceiptPreviewModal({
                 ) : null}
               </div>
 
-              <div className="my-3 border-t border-dashed border-slate-500" />
-              <p className="text-center">Obrigado pela preferencia.</p>
+              {footerMessage ? (
+                <>
+                  <div className="my-3 border-t border-dashed border-slate-500" />
+                  <p className="whitespace-pre-line text-center">{footerMessage}</p>
+                </>
+              ) : null}
             </div>
           </div>
 

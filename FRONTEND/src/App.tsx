@@ -38,7 +38,7 @@ const SalesHistoryPage = lazy(() => import("@/pages/Admin/SalesHistoryPage"));
 const SalesStartPage = lazy(() => import("@/pages/Admin/SalesStartPage"));
 const ReportsPage = lazy(() => import("@/pages/Admin/ReportsPage"));
 const UserAccountsPage = lazy(() => import("@/pages/Admin/UserAccountsPage"));
-const FiscalPage = lazy(() => import("@/pages/Admin/FiscalPage"));
+const CupomNaoFiscalPage = lazy(() => import("@/pages/Admin/CupomNaoFiscalPage"));
 const PaymentsPage = lazy(() => import("@/pages/Admin/PaymentsPage"));
 const StockPage = lazy(() => import("@/pages/Admin/StockPage"));
 const CashRegisterPage = lazy(() => import("@/pages/Admin/CashRegisterPage"));
@@ -116,7 +116,7 @@ export default function App() {
       "historico-vendas",
       "relatorios",
       "vendas",
-      "fiscal",
+      "cupom",
       "pagamentos",
       "estoque",
       "caixa",
@@ -194,7 +194,7 @@ export default function App() {
     "historico-vendas": "Histórico de Vendas",
     relatorios: "Relatórios",
     vendas: "Iniciar Vendas",
-    fiscal: "Fiscal NFC-e / NF-e",
+    cupom: "Cupom Não Fiscal",
     pagamentos: "Pagamentos Integrados",
     estoque: "Estoque e Inventário",
     caixa: "Abertura e Fechamento de Caixa",
@@ -224,8 +224,8 @@ export default function App() {
         return SalesHistoryPage;
       case "relatorios":
         return ReportsPage;
-      case "fiscal":
-        return FiscalPage;
+      case "cupom":
+        return CupomNaoFiscalPage;
       case "pagamentos":
         return PaymentsPage;
       case "estoque":
