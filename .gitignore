@@ -19,3 +19,10 @@ dist/
 #CSharp Build output
 bin/
 obj/
+
+# Ambiente local do Docker Compose (segredos)
+/.env
+!/.env.example
+
+# Backups locais
+/backups/
