@@ -89,7 +89,7 @@ function SidebarItem({
       type="button"
       onClick={onClick}
       aria-current={active ? "page" : undefined}
-      className={`w-full flex items-center gap-3 p-3 rounded-xl transition border text-left focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(46,191,244,0.22)] ${
+      className={`w-full flex items-center gap-3 p-3 rounded-xl transition border text-left focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(38,130,9,0.22)] ${
         active
           ? "border-secondary/30 bg-accent/12 text-text-primary shadow-sm"
           : "border-transparent hover:border-border-secondary hover:bg-accent/10 hover:text-text-primary"
@@ -159,7 +159,7 @@ export default function AppSidebar({
               type="button"
               onClick={onToggle}
               aria-label={collapsed ? "Expandir menu lateral" : "Recolher menu lateral"}
-              className="hidden lg:inline-flex p-2 rounded-lg hover:bg-accent/10 focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(46,191,244,0.22)]"
+              className="hidden lg:inline-flex p-2 rounded-lg hover:bg-accent/10 focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(38,130,9,0.22)]"
             >
               <Menu size={20} className="text-accent" />
             </button>
@@ -167,7 +167,7 @@ export default function AppSidebar({
             <button
               type="button"
               onClick={onCloseMobile}
-              className="p-2 rounded-lg hover:bg-accent/10 lg:hidden focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(46,191,244,0.22)]"
+              className="p-2 rounded-lg hover:bg-accent/10 lg:hidden focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(38,130,9,0.22)]"
               aria-label="Fechar menu"
             >
               <Menu size={20} className="text-accent" />

@@ -24,7 +24,7 @@ export default function AuthLayout({
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="auth-login-glow-secondary absolute -top-20 -left-10 h-52 w-52 rounded-full bg-secondary/25 blur-3xl" />
         <div className="auth-login-glow-accent absolute top-[42%] -right-12 h-56 w-56 rounded-full bg-accent/25 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(46,191,244,0.16),transparent_45%),radial-gradient(circle_at_90%_80%,rgba(32,171,213,0.14),transparent_48%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,27,156,0.16),transparent_45%),radial-gradient(circle_at_90%_80%,rgba(143,214,8,0.14),transparent_48%)]" />
         <div className="absolute inset-0 opacity-[0.13] [background:linear-gradient(115deg,transparent_0%,transparent_48%,rgba(255,255,255,0.6)_50%,transparent_52%,transparent_100%)] bg-[length:14px_14px]" />
       </div>
 

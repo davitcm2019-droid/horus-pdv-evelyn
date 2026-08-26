@@ -14,7 +14,7 @@
   --color-primary: #dc2626; /* erro/perigo */
   --color-secondary: #d40a83; /* identidade Evelyn Acessórios (magenta) */
   --color-success: #15803d; /* sucesso/confirmar */
-  --color-accent: #0369a1; /* destaque operacional */
+  --color-accent: #268209; /* destaque operacional */
   --color-dark: #111827;
 
   /* marca Evelyn Acessórios - uso decorativo (glows, gradientes) */
@@ -37,7 +37,7 @@
   --color-hover-primary: #b91c1c;
   --color-hover-secondary: #b00a6d;
   --color-hover-success: #166534;
-  --color-hover-accent: #075985;
+  --color-hover-accent: #1e6807;
   --color-hover-light: #e2e8f0;
 
   /* bordas */
@@ -45,8 +45,8 @@
   --color-border-secondary: #cbd5e1;
 
   /* chat */
-  --color-chat-agent-bg: #e0f2fe;
-  --color-chat-agent-text: #082f49;
+  --color-chat-agent-bg: #e7f6e2;
+  --color-chat-agent-text: #123309;
   --color-chat-user-bg: #ffffff;
   --color-chat-user-text: #111827;
 }
@@ -56,17 +56,17 @@
     --color-action-primary: #dc2626;
     --color-action-secondary: #d40a83;
     --color-action-success: #15803d;
-    --color-action-accent: #0369a1;
+    --color-action-accent: #268209;
     --color-action-dark: #111827;
     --color-action-hover-primary: #b91c1c;
     --color-action-hover-secondary: #b00a6d;
     --color-action-hover-success: #166534;
-    --color-action-hover-accent: #075985;
+    --color-action-hover-accent: #1e6807;
     --color-action-on-primary: #ffffff;
     --color-action-on-secondary: #ffffff;
     --color-action-on-success: #ffffff;
     --color-action-on-accent: #ffffff;
-    --color-focus-ring: rgba(3, 105, 161, 0.28);
+    --color-focus-ring: rgba(38, 130, 9, 0.28);
     --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05), 0 10px 24px rgba(15, 23, 42, 0.06);
     --shadow-floating: 0 20px 50px rgba(15, 23, 42, 0.22);
     --z-layer-fab: 45;
@@ -112,9 +112,9 @@
   html[data-theme="dark"] {
     color-scheme: dark;
     --color-primary: #f87171;
-    --color-secondary: #a5b4fc;
+    --color-secondary: #f472b6;
     --color-success: #4ade80;
-    --color-accent: #38bdf8;
+    --color-accent: #a3e635;
     --color-dark: #020617;
     --color-light: #0f172a;
 
@@ -128,15 +128,15 @@
     --color-bg-gray-theme: #1e293b;
 
     --color-hover-primary: #fb7185;
-    --color-hover-secondary: #c4b5fd;
+    --color-hover-secondary: #f9a8d4;
     --color-hover-success: #86efac;
-    --color-hover-accent: #075985;
+    --color-hover-accent: #bef264;
     --color-hover-light: #273449;
 
     --color-border-primary: #334155;
     --color-border-secondary: #475569;
 
-    --color-chat-agent-bg: #0c4a6e;
+    --color-chat-agent-bg: #14401c;
     --color-chat-agent-text: #f0f9ff;
     --color-chat-user-bg: #1e293b;
     --color-chat-user-text: #f8fafc;
@@ -144,13 +144,13 @@
     --color-action-primary: #dc2626;
     --color-action-secondary: #d40a83;
     --color-action-success: #15803d;
-    --color-action-accent: #0369a1;
+    --color-action-accent: #268209;
     --color-action-dark: #020617;
     --color-action-hover-primary: #b91c1c;
     --color-action-hover-secondary: #b00a6d;
     --color-action-hover-success: #166534;
-    --color-action-hover-accent: #075985;
-    --color-focus-ring: rgba(56, 189, 248, 0.34);
+    --color-action-hover-accent: #1e6807;
+    --color-focus-ring: rgba(143, 214, 8, 0.34);
     --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.22), 0 16px 36px rgba(0, 0, 0, 0.18);
     --shadow-floating: 0 24px 60px rgba(0, 0, 0, 0.45);
   }
