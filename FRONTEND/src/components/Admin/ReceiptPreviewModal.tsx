@@ -68,7 +68,7 @@ function escapeHtml(value: string) {
 
 function buildReceiptPrintHtml(receipt: SaleReceipt, formatMoney: (value: number) => string) {
   const companyName =
-    receipt.company?.fantasyName || receipt.company?.corporateName || "Horus PDV";
+    receipt.company?.fantasyName || receipt.company?.corporateName || "Evelyn Acessórios";
   const companyAddress = [
     receipt.company?.address,
     receipt.company?.number,
@@ -166,7 +166,7 @@ export default function ReceiptPreviewModal({
   onClose: () => void;
 }) {
   const companyName =
-    receipt.company?.fantasyName || receipt.company?.corporateName || "Horus PDV";
+    receipt.company?.fantasyName || receipt.company?.corporateName || "Evelyn Acessórios";
   const companyAddress = [
     receipt.company?.address,
     receipt.company?.number,

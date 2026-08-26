@@ -30,18 +30,27 @@ export default function AuthLayout({
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-5xl items-center justify-center">
         <section className="card auth-login-card grid w-full overflow-hidden border-white/45 bg-white/85 backdrop-blur-sm lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="hidden bg-gradient-to-br from-secondary to-accent p-8 text-white lg:flex lg:flex-col lg:justify-between">
-            <div>
-              <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-white/80">
+          <div className="relative hidden overflow-hidden bg-[#0a0a0f] p-8 text-white lg:flex lg:flex-col lg:justify-between">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+              <div className="absolute -top-16 -left-12 h-56 w-56 rounded-full bg-brand-pink/30 blur-3xl" />
+              <div className="absolute -bottom-12 -right-12 h-64 w-64 rounded-full bg-brand-green/25 blur-3xl" />
+            </div>
+            <div className="relative">
+              <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-white/70">
                 <ShieldCheck size={13} />
-                Hórus PDV
+                Evelyn Acessórios
               </p>
-              <h1 className="mt-4 text-3xl font-bold leading-tight">
-                Gestão de vendas com fluxo rápido para operação de balcão.
+              <img
+                src="/brand/evelyn-logo.png"
+                alt="Evelyn Acessórios"
+                className="mt-6 h-40 w-auto drop-shadow-[0_0_25px_rgba(255,27,156,0.35)]"
+              />
+              <h1 className="mt-6 text-3xl font-bold leading-tight">
+                Gestão de vendas para sua loja de acessórios.
               </h1>
             </div>
 
-            <p className="text-sm text-white/85">
+            <p className="relative text-sm text-white/80">
               Acesse vendas, clientes, produtos, caixa e relatórios em um único painel.
             </p>
           </div>

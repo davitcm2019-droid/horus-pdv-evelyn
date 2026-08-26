@@ -73,7 +73,7 @@ export default function MyCompanyPage() {
   const [emailSmtpPassword, setEmailSmtpPassword] = useState("");
   const [emailSmtpHasPassword, setEmailSmtpHasPassword] = useState(false);
   const [emailSmtpFromEmail, setEmailSmtpFromEmail] = useState("");
-  const [emailSmtpFromName, setEmailSmtpFromName] = useState("Hórus PDV");
+  const [emailSmtpFromName, setEmailSmtpFromName] = useState("Evelyn Acessórios");
   const [emailSmtpReplyTo, setEmailSmtpReplyTo] = useState("");
   const [cepLookupLoading, setCepLookupLoading] = useState(false);
   const [cepLookupError, setCepLookupError] = useState("");
@@ -108,7 +108,7 @@ export default function MyCompanyPage() {
         setEmailSmtpPassword("");
         setEmailSmtpHasPassword(Boolean(data.emailSmtpHasPassword));
         setEmailSmtpFromEmail(data.emailSmtpFromEmail || data.email || "");
-        setEmailSmtpFromName(data.emailSmtpFromName || data.fantasyName || "Hórus PDV");
+        setEmailSmtpFromName(data.emailSmtpFromName || data.fantasyName || "Evelyn Acessórios");
         setEmailSmtpReplyTo(data.emailSmtpReplyTo || "");
       })
       .catch(() => {
@@ -250,7 +250,7 @@ export default function MyCompanyPage() {
         setEmailSmtpPassword("");
         setEmailSmtpHasPassword(Boolean(data.emailSmtpHasPassword));
         setEmailSmtpFromEmail(data.emailSmtpFromEmail || data.email || "");
-        setEmailSmtpFromName(data.emailSmtpFromName || data.fantasyName || "Hórus PDV");
+        setEmailSmtpFromName(data.emailSmtpFromName || data.fantasyName || "Evelyn Acessórios");
         setEmailSmtpReplyTo(data.emailSmtpReplyTo || "");
       }
       Toast.success("Dados da empresa salvos com sucesso.");

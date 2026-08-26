@@ -12,10 +12,14 @@
 
   /* cores base do projeto com contraste AA */
   --color-primary: #dc2626; /* erro/perigo */
-  --color-secondary: #4f46e5; /* identidade Hórus */
+  --color-secondary: #d40a83; /* identidade Evelyn Acessórios (magenta) */
   --color-success: #15803d; /* sucesso/confirmar */
   --color-accent: #0369a1; /* destaque operacional */
   --color-dark: #111827;
+
+  /* marca Evelyn Acessórios - uso decorativo (glows, gradientes) */
+  --color-brand-pink: #ff1b9c;
+  --color-brand-green: #8fd608;
   --color-light: #f8fafc;
 
   /* textos */
@@ -31,7 +35,7 @@
 
   /* hover */
   --color-hover-primary: #b91c1c;
-  --color-hover-secondary: #4338ca;
+  --color-hover-secondary: #b00a6d;
   --color-hover-success: #166534;
   --color-hover-accent: #075985;
   --color-hover-light: #e2e8f0;
@@ -50,12 +54,12 @@
 @layer base {
   :root {
     --color-action-primary: #dc2626;
-    --color-action-secondary: #4f46e5;
+    --color-action-secondary: #d40a83;
     --color-action-success: #15803d;
     --color-action-accent: #0369a1;
     --color-action-dark: #111827;
     --color-action-hover-primary: #b91c1c;
-    --color-action-hover-secondary: #4338ca;
+    --color-action-hover-secondary: #b00a6d;
     --color-action-hover-success: #166534;
     --color-action-hover-accent: #075985;
     --color-action-on-primary: #ffffff;
@@ -138,12 +142,12 @@
     --color-chat-user-text: #f8fafc;
 
     --color-action-primary: #dc2626;
-    --color-action-secondary: #4f46e5;
+    --color-action-secondary: #d40a83;
     --color-action-success: #15803d;
     --color-action-accent: #0369a1;
     --color-action-dark: #020617;
     --color-action-hover-primary: #b91c1c;
-    --color-action-hover-secondary: #4338ca;
+    --color-action-hover-secondary: #b00a6d;
     --color-action-hover-success: #166534;
     --color-action-hover-accent: #075985;
     --color-focus-ring: rgba(56, 189, 248, 0.34);

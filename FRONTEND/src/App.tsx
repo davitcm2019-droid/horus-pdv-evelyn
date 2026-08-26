@@ -571,10 +571,10 @@ export default function App() {
 
   useEffect(() => {
     if (activePage === "vendas" && isStandalonePos) {
-      document.title = "Hórus PDV - Frente de caixa grátis";
+      document.title = "Evelyn Acessórios — Frente de caixa";
       return;
     }
-    document.title = "Hórus PDV - PDV grátis e frente de caixa";
+    document.title = "Evelyn Acessórios — Sistema de Vendas";
   }, [activePage, isStandalonePos]);
 
   if (isCheckingAuth) {

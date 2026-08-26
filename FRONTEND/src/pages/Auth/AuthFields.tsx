@@ -55,7 +55,7 @@ export function EmailField({ value, onChange, onEnter }: FieldProps) {
           className="input-field w-full pl-10"
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          placeholder="usuario@hpdv.com.br"
+          placeholder="seuemail@exemplo.com"
           onKeyDown={(event) => {
             if (event.key === "Enter") void onEnter();
           }}

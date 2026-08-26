@@ -1,6 +1,6 @@
 /**
  * Arquivo: src/utils/authStorage.ts
- * Objetivo: centralizar token JWT e usuario autenticado do Hórus PDV no navegador.
+ * Objetivo: centralizar token JWT e usuario autenticado do Evelyn Acessórios no navegador.
   * Entradas esperadas: recebe token e dados do usuário autenticado para persistência local segura no navegador.
 */
 const LEGACY_AUTH_TOKEN_STORAGE_KEY = "horuspdv.auth.token";
