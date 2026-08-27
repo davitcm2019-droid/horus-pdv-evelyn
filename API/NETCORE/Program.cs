@@ -59,6 +59,12 @@ builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 
 var app = builder.Build();
 
+// Modo instalável / URL única: se houver um SPA compilado em wwwroot, a própria
+// API serve o frontend. No Docker (sem wwwroot) o nginx continua servindo o SPA.
+var webRoot = app.Environment.WebRootPath
+    ?? Path.Combine(app.Environment.ContentRootPath, "wwwroot");
+var serveSpa = File.Exists(Path.Combine(webRoot, "index.html"));
+
 app.Services.GetRequiredService<HorusSecurityOptions>().Validate();
 await HorusDatabaseInitializer.InitializeAsync(app.Services);
 
@@ -89,6 +95,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 app.UseRouting();
+
+if (serveSpa)
+{
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+}
+
 app.UseMiddleware<HorusSecurityHeadersMiddleware>();
 app.UseCors("HorusPdvCorsPolicy");
 app.UseMiddleware<HorusRequestTelemetryMiddleware>();
@@ -104,5 +117,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+
+// Fallback do SPA: qualquer rota que não seja /api e não seja arquivo estático
+// devolve o index.html (client-side routing). Não intercepta /api.
+if (serveSpa)
+{
+    app.MapFallbackToFile("{*path:regex(^(?!api/).*$)}", "index.html");
+}
 
 app.Run();

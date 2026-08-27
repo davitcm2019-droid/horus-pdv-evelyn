@@ -56,6 +56,11 @@ public class HorusAuthMiddleware(RequestDelegate next)
         if (HttpMethods.IsOptions(context.Request.Method)) return true;
 
         var path = context.Request.Path.Value ?? "";
+
+        // Somente rotas /api são protegidas. Assets estáticos e o SPA (servidos
+        // pela própria API no modo instalável) passam livres para renderizar o login.
+        if (!path.StartsWith("/api", StringComparison.OrdinalIgnoreCase)) return true;
+
         return path.StartsWith("/api/Auth/login", StringComparison.OrdinalIgnoreCase) ||
                path.StartsWith("/api/Auth/forgot-password", StringComparison.OrdinalIgnoreCase) ||
                path.StartsWith("/api/Auth/reset-password", StringComparison.OrdinalIgnoreCase) ||
