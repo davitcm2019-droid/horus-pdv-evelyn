@@ -1,0 +1,52 @@
+# Render Blueprint — conferência do cliente (Evelyn Acessórios)
+# Sobe 2 serviços: web (API que serve o SPA) + SQL Server privado (container + disco).
+# Segredos (sync:false) são preenchidos no painel do Render, não ficam no repo.
+
+services:
+  # ---------- App: API .NET servindo o SPA (imagem única) ----------
+  - type: web
+    name: evelyn-app
+    runtime: docker
+    dockerfilePath: docker/app.Dockerfile
+    dockerContext: .
+    plan: starter
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: ASPNETCORE_HTTP_PORTS
+        value: "8080"
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: Security__TrustForwardedHeaders
+        value: "true"
+      - key: Recaptcha__Enabled
+        value: "false"
+      # Conexão com o SQL Server privado (host = nome do serviço, porta 1433)
+      - key: ConnectionStrings__HorusPdv
+        sync: false
+      - key: Auth__JwtSecret
+        sync: false
+      - key: Security__EncryptionKey
+        sync: false
+      - key: Security__CorsOrigins
+        sync: false
+
+  # ---------- Banco: SQL Server 2022 (serviço privado + disco) ----------
+  - type: pserv
+    name: evelyn-sqlserver
+    runtime: image
+    image:
+      url: mcr.microsoft.com/mssql/server:2022-latest
+    plan: standard
+    disk:
+      name: mssql-data
+      mountPath: /var/opt/mssql
+      sizeGB: 5
+    envVars:
+      - key: ACCEPT_EULA
+        value: "Y"
+      - key: MSSQL_PID
+        value: Express
+      - key: MSSQL_SA_PASSWORD
+        sync: false
