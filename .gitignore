@@ -26,3 +26,7 @@ obj/
 
 # Backups locais
 /backups/
+
+# Build artifacts locais
+/dist-exe/
+/FRONTEND/dist/

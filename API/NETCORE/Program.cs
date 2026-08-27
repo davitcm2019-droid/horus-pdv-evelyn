@@ -12,8 +12,17 @@ using HORUSPDV_API.Services.Email;
 using HORUSPDV_API.Services.Fornecedores;
 using HORUSPDV_API.Services.Produtos;
 using HORUSPDV_API.Services.Security;
+using Microsoft.Extensions.FileProviders;
 
-var builder = WebApplication.CreateBuilder(args);
+// ContentRoot fixado na pasta do executável (não no diretório de trabalho):
+// garante que wwwroot e DataBase/ sejam encontrados quando o .exe é aberto
+// por atalho, de qualquer lugar. No Docker o AppContext.BaseDirectory é a
+// pasta do app, então continua correto.
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = AppContext.BaseDirectory,
+});
 
 var corsOrigins = (builder.Configuration["Security:CorsOrigins"] ??
                    "http://localhost:5173,https://localhost:5173,http://127.0.0.1:5173,https://127.0.0.1:5173,http://localhost:4173,https://localhost:4173,http://127.0.0.1:4173,https://127.0.0.1:4173")
@@ -59,11 +68,13 @@ builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 
 var app = builder.Build();
 
-// Modo instalável / URL única: se houver um SPA compilado em wwwroot, a própria
-// API serve o frontend. No Docker (sem wwwroot) o nginx continua servindo o SPA.
-var webRoot = app.Environment.WebRootPath
-    ?? Path.Combine(app.Environment.ContentRootPath, "wwwroot");
+// Modo instalável / URL única: se houver um SPA compilado em wwwroot (ao lado do
+// exe), a própria API serve o frontend. Usa um FileProvider explícito para não
+// depender do WebRootPath. No Docker (sem wwwroot) o nginx continua servindo o SPA.
+var webRoot = Path.Combine(AppContext.BaseDirectory, "wwwroot");
 var serveSpa = File.Exists(Path.Combine(webRoot, "index.html"));
+var spaFileProvider = serveSpa ? new PhysicalFileProvider(webRoot) : null;
+Console.WriteLine($"[SPA] webRoot={webRoot} serveSpa={serveSpa} assetsExists={(spaFileProvider?.GetDirectoryContents("assets").Exists ?? false)}");
 
 app.Services.GetRequiredService<HorusSecurityOptions>().Validate();
 await HorusDatabaseInitializer.InitializeAsync(app.Services);
@@ -94,13 +105,13 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
-app.UseRouting();
-
 if (serveSpa)
 {
-    app.UseDefaultFiles();
-    app.UseStaticFiles();
+    app.UseDefaultFiles(new DefaultFilesOptions { FileProvider = spaFileProvider });
+    app.UseStaticFiles(new StaticFileOptions { FileProvider = spaFileProvider });
 }
+
+app.UseRouting();
 
 app.UseMiddleware<HorusSecurityHeadersMiddleware>();
 app.UseCors("HorusPdvCorsPolicy");
@@ -122,7 +133,10 @@ app.MapControllers();
 // devolve o index.html (client-side routing). Não intercepta /api.
 if (serveSpa)
 {
-    app.MapFallbackToFile("{*path:regex(^(?!api/).*$)}", "index.html");
+    app.MapFallbackToFile(
+        "{*path:regex(^(?!api/).*$)}",
+        "index.html",
+        new StaticFileOptions { FileProvider = spaFileProvider });
 }
 
 app.Run();
