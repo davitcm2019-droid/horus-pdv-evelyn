@@ -1,10 +1,10 @@
 /**
  * Arquivo: src/pages/Admin/LicenseDetailsPage.tsx
- * Objetivo: documenta o modelo de licença open source, créditos obrigatórios e status de uso da versão atual.
- * Entradas esperadas: não recebe props; renderiza conteúdo estático sobre termos de uso do projeto.
+ * Objetivo: documenta a licença de uso exclusiva do sistema sob encomenda e seus responsáveis.
+ * Entradas esperadas: não recebe props; renderiza conteúdo estático sobre termos de uso do sistema.
  */
 
-import { BadgeCheck, BookMarked, Copyright, Scale } from "lucide-react";
+import { BadgeCheck, Copyright, ScrollText, Scale } from "lucide-react";
 import PageHeader from "@/components/Admin/PageHeader";
 import PageLayout from "@/layout/PageLayout";
 
@@ -13,14 +13,14 @@ export default function LicenseDetailsPage() {
     <PageLayout className="space-y-4 py-4 md:space-y-6 md:py-6 lg:py-8">
       <PageHeader
         title="Detalhes da Licença"
-        description="Informações de uso do Evelyn Acessórios como projeto open source."
+        description="Termos de uso do sistema desenvolvido sob encomenda para a Evelyn Acessórios."
       />
 
       <section className="card overflow-hidden">
         <div className="border-b border-border-primary bg-gradient-to-r from-secondary/8 via-bg-light to-accent/8 px-4 py-4 md:px-5">
-          <h2 className="text-lg font-semibold text-text-primary">Licença de uso da versão atual</h2>
+          <h2 className="text-lg font-semibold text-text-primary">Licença de uso exclusiva</h2>
           <p className="mt-1 text-sm text-text-secondary">
-            Esta instalação está vinculada ao modelo gratuito com atribuição de créditos.
+            Software proprietário, licenciado para uso exclusivo da Evelyn Acessórios.
           </p>
         </div>
 
@@ -31,68 +31,60 @@ export default function LicenseDetailsPage() {
               Modelo
             </p>
             <p className="mt-2 text-sm text-text-secondary">
-              O Evelyn Acessórios pode ser utilizado gratuitamente nesta versão, para estudo, operação
-              e evolução do projeto.
+              Sistema desenvolvido sob encomenda e de uso privado. A licença cobre a operação
+              da loja titular, não sendo destinado à revenda, redistribuição ou uso por terceiros.
             </p>
           </article>
 
           <article className="rounded-xl border border-border-primary bg-bg-primary p-4">
             <p className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
-              <Copyright size={16} className="text-accent" />
-              Créditos obrigatórios
+              <ScrollText size={16} className="text-accent" />
+              Titular da licença
             </p>
-            <p className="mt-2 text-sm text-text-secondary">
-              Ao usar, adaptar ou redistribuir, mantenha a referência ao projeto original e ao
-              autor nos devidos pontos de documentação e interface.
-            </p>
-            <div className="mt-3 space-y-1 text-sm text-text-secondary">
+            <div className="mt-2 space-y-1 text-sm text-text-secondary">
               <p>
-                Autor: <strong className="text-text-primary">Flávio Oliveira</strong>
+                Loja: <strong className="text-text-primary">Evelyn Acessórios</strong>
               </p>
               <p>
-                GitHub:{" "}
-                <a
-                  href="https://github.com/flaviooliveira-code"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-accent hover:underline"
-                >
-                  github.com/flaviooliveira-code
-                </a>
-              </p>
-              <p>
-                LinkedIn:{" "}
-                <a
-                  href="https://www.linkedin.com/in/fladoliveira"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-accent hover:underline"
-                >
-                  linkedin.com/in/fladoliveira
-                </a>
+                Responsável: <strong className="text-text-primary">Evelyn Zavitoski</strong>
               </p>
             </div>
           </article>
 
           <article className="rounded-xl border border-border-primary bg-bg-primary p-4">
             <p className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
-              <BookMarked size={16} className="text-accent" />
-              Evolução do projeto
+              <Copyright size={16} className="text-accent" />
+              Desenvolvimento e autoria
             </p>
             <p className="mt-2 text-sm text-text-secondary">
-              Criado em 2020 e evoluído continuamente até esta versão de 2026, com melhorias de
-              arquitetura e experiência de uso.
+              Concepção e desenvolvimento por Davi Alves (DaviStudio). Para suporte, ajustes ou
+              novas funcionalidades, fale pelo canal abaixo.
             </p>
+            <div className="mt-3 space-y-1 text-sm text-text-secondary">
+              <p>
+                Autor: <strong className="text-text-primary">Davi Alves</strong> — DaviStudio
+              </p>
+              <p>
+                Instagram:{" "}
+                <a
+                  href="https://www.instagram.com/davistudio.br/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-accent hover:underline"
+                >
+                  @davistudio.br
+                </a>
+              </p>
+            </div>
           </article>
 
           <article className="rounded-xl border border-success/30 bg-success/10 p-4">
             <p className="inline-flex items-center gap-2 text-sm font-semibold text-success">
               <BadgeCheck size={16} />
-              Status da licença atual
+              Status da licença
             </p>
             <p className="mt-2 text-sm text-success">
-              Uso gratuito ativo para esta versão open source, respeitando os créditos e termos
-              definidos pelo mantenedor.
+              Licença ativa — instalação exclusiva da Evelyn Acessórios (2026).
             </p>
           </article>
         </div>
