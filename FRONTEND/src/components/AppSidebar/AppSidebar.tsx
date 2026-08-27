@@ -91,7 +91,7 @@ function SidebarItem({
       aria-current={active ? "page" : undefined}
       className={`w-full flex items-center gap-3 p-3 rounded-xl transition border text-left focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_rgba(38,130,9,0.22)] ${
         active
-          ? "border-secondary/30 bg-accent/12 text-text-primary shadow-sm"
+          ? "nav-item-active border-secondary/30 bg-secondary/10 text-text-primary"
           : "border-transparent hover:border-border-secondary hover:bg-accent/10 hover:text-text-primary"
       }`}
     >
@@ -141,7 +141,7 @@ export default function AppSidebar({
   return (
     <>
       <aside
-        className={`fixed top-0 left-0 z-layer-sidebar h-screen bg-bg-light border-r border-border-primary shadow-sm transition-all duration-300 flex flex-col justify-between ${
+        className={`fixed top-0 left-0 z-layer-sidebar h-screen glass-panel border-r border-border-primary shadow-sm transition-all duration-300 flex flex-col justify-between ${
           collapsed ? "w-20" : "w-72"
         } ${mobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 lg:static`}
       >

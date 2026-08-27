@@ -159,7 +159,7 @@ export default function HomePage({ onNavigate, onOpenSalesInNewTab }: HomePagePr
                   // Demais atalhos usam navegação padrão de página.
                   onNavigate?.(shortcut.page);
                 }}
-                className="group flex h-full min-h-[132px] flex-col rounded-xl border border-border-primary bg-bg-primary p-4 text-left transition hover:-translate-y-0.5 hover:border-secondary/40 hover:bg-accent/10 hover:shadow-sm"
+                className="group flex h-full min-h-[132px] flex-col rounded-xl border border-border-primary bg-bg-primary p-4 text-left transition hover:-translate-y-0.5 hover:border-secondary/40 hover:bg-secondary/10 hover:[box-shadow:var(--glow-brand)]"
               >
                 <div className="flex items-start justify-between gap-3">
                   <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/10 text-secondary">
@@ -199,7 +199,7 @@ export default function HomePage({ onNavigate, onOpenSalesInNewTab }: HomePagePr
                 key={shortcut.title}
                 type="button"
                 onClick={() => onNavigate?.(shortcut.page)}
-                className="group flex min-h-[118px] flex-col rounded-xl border border-border-primary bg-bg-primary p-4 text-left transition hover:-translate-y-0.5 hover:border-secondary/40 hover:bg-accent/10 hover:shadow-sm"
+                className="group flex min-h-[118px] flex-col rounded-xl border border-border-primary bg-bg-primary p-4 text-left transition hover:-translate-y-0.5 hover:border-secondary/40 hover:bg-secondary/10 hover:[box-shadow:var(--glow-brand)]"
               >
                 <div className="flex items-start justify-between gap-3">
                   <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/10 text-secondary">

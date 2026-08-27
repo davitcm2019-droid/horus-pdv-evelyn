@@ -67,8 +67,23 @@
     --color-action-on-success: #ffffff;
     --color-action-on-accent: #ffffff;
     --color-focus-ring: rgba(38, 130, 9, 0.28);
-    --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05), 0 10px 24px rgba(15, 23, 42, 0.06);
+    --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05), 0 12px 30px rgba(15, 23, 42, 0.07);
     --shadow-floating: 0 20px 50px rgba(15, 23, 42, 0.22);
+
+    /* superfícies de vidro (claro: sutil, texto nítido) */
+    --glass-bg: rgba(255, 255, 255, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.7);
+    --glass-blur: 14px;
+
+    /* brilho neon da marca */
+    --glow-brand: 0 0 0 1px rgba(212, 10, 131, 0.10), 0 8px 26px rgba(212, 10, 131, 0.12);
+    --glow-brand-strong: 0 0 0 1px rgba(212, 10, 131, 0.22), 0 10px 30px rgba(212, 10, 131, 0.22);
+
+    /* fundo do app com glows de marca (discretos no claro) */
+    --app-bg: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+    --app-glow: radial-gradient(900px 520px at 10% -6%, rgba(212, 10, 131, 0.06), transparent 60%),
+      radial-gradient(820px 480px at 100% 0%, rgba(38, 130, 9, 0.05), transparent 55%);
+
     --z-layer-fab: 45;
     --z-layer-mobile-header: 30;
     --z-layer-sidebar: 40;
@@ -90,7 +105,8 @@
     font-family: var(--font-body);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     color: var(--color-text-primary);
-    background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-gray-theme) 100%);
+    background: var(--app-glow), var(--app-bg);
+    background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition:
@@ -151,8 +167,24 @@
     --color-action-hover-success: #166534;
     --color-action-hover-accent: #1e6807;
     --color-focus-ring: rgba(143, 214, 8, 0.34);
-    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.22), 0 16px 36px rgba(0, 0, 0, 0.18);
-    --shadow-floating: 0 24px 60px rgba(0, 0, 0, 0.45);
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 18px 44px rgba(0, 0, 0, 0.4);
+    --shadow-floating: 0 24px 60px rgba(0, 0, 0, 0.6);
+
+    /* superfícies de vidro (dark: translúcido + blur) */
+    --glass-bg: rgba(17, 24, 39, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: 16px;
+
+    /* brilho neon da marca (forte no dark) */
+    --glow-brand: 0 0 0 1px rgba(255, 27, 156, 0.18), 0 10px 38px rgba(255, 27, 156, 0.18);
+    --glow-brand-strong: 0 0 0 1px rgba(255, 27, 156, 0.35), 0 0 22px rgba(143, 214, 8, 0.16),
+      0 14px 44px rgba(255, 27, 156, 0.28);
+
+    /* fundo do app com glows neon (fortes no dark) */
+    --app-bg: linear-gradient(180deg, #0b1120 0%, #070a12 100%);
+    --app-glow: radial-gradient(900px 540px at 8% -6%, rgba(255, 27, 156, 0.13), transparent 60%),
+      radial-gradient(840px 500px at 100% 0%, rgba(143, 214, 8, 0.09), transparent 55%),
+      radial-gradient(700px 500px at 60% 110%, rgba(255, 27, 156, 0.07), transparent 60%);
   }
 }
 
@@ -229,18 +261,22 @@
   .btn-primary {
     background: var(--color-action-secondary);
     color: var(--color-action-on-secondary);
+    box-shadow: var(--glow-brand);
     @apply font-semibold
-    py-2 px-4 rounded-xl shadow-md
-    transition duration-300 ease-in-out
+    py-2 px-4 rounded-xl
+    transition duration-200 ease-out
     active:translate-y-px;
   }
 
   .btn-primary:disabled {
     @apply cursor-not-allowed opacity-60;
+    box-shadow: none;
   }
 
-  .btn-primary:hover {
+  .btn-primary:hover:not(:disabled) {
     background: var(--color-action-hover-secondary);
+    box-shadow: var(--glow-brand-strong);
+    transform: translateY(-1px);
   }
 
   /* BOTÃO SUCESSO (VERDE) */
@@ -297,10 +333,42 @@
     color: var(--color-action-on-secondary);
   }
 
-  /* CARD PADRÃO */
+  /* CARD PADRÃO (vidro) */
   .card {
-    @apply bg-bg-light rounded-2xl border border-border-primary;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-card);
+    @apply rounded-2xl;
+    transition:
+      transform 0.22s ease,
+      box-shadow 0.28s ease,
+      border-color 0.28s ease;
+  }
+
+  /* PAINEL DE VIDRO (sidebar, barras) */
+  .glass-panel {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+  }
+
+  /* CARD INTERATIVO: eleva e brilha no hover */
+  .card-interactive {
+    cursor: pointer;
+  }
+
+  .card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow-brand);
+    border-color: color-mix(in srgb, var(--color-secondary) 40%, transparent);
+  }
+
+  /* ITEM DE MENU ATIVO: brilho neon */
+  .nav-item-active {
+    box-shadow: var(--glow-brand);
+    border-color: color-mix(in srgb, var(--color-secondary) 45%, transparent) !important;
   }
 
   /* CHAT BUBBLE AGENTE */
