@@ -31,6 +31,7 @@ Nome interno do banco no Railway = `<nome-do-servico>.railway.internal`.
 | `Auth__JwtSecret` | `<JWT_SECRET>` |
 | `Security__EncryptionKey` | `<ENCRYPTION_KEY>` |
 | `Security__TrustForwardedHeaders` | `true` |
+| `Recaptcha__Enabled` | `false` (senão exige chave e o app não sobe) |
 | `ASPNETCORE_ENVIRONMENT` | `Production` |
 | `ASPNETCORE_HTTP_PORTS` | `${{PORT}}` |
 | `Security__CorsOrigins` | `https://<dominio-publico-do-app>` |
