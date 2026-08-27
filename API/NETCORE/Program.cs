@@ -12,6 +12,7 @@ using HORUSPDV_API.Services.Email;
 using HORUSPDV_API.Services.Fornecedores;
 using HORUSPDV_API.Services.Produtos;
 using HORUSPDV_API.Services.Security;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.FileProviders;
 
 // ContentRoot fixado na pasta do executável (não no diretório de trabalho):
@@ -76,8 +77,23 @@ var serveSpa = File.Exists(Path.Combine(webRoot, "index.html"));
 var spaFileProvider = serveSpa ? new PhysicalFileProvider(webRoot) : null;
 Console.WriteLine($"[SPA] webRoot={webRoot} serveSpa={serveSpa} assetsExists={(spaFileProvider?.GetDirectoryContents("assets").Exists ?? false)}");
 
-app.Services.GetRequiredService<HorusSecurityOptions>().Validate();
+var securityOptions = app.Services.GetRequiredService<HorusSecurityOptions>();
+securityOptions.Validate();
 await HorusDatabaseInitializer.InitializeAsync(app.Services);
+
+// Atrás de proxy que termina TLS (nuvem), lê X-Forwarded-Proto/-For para que
+// Request.IsHttps e o IP reflitam a requisição original. Sem isso, o
+// UseHttpsRedirection entra em loop e o cookie Secure fica incorreto.
+if (securityOptions.TrustForwardedHeaders)
+{
+    var forwardedOptions = new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    };
+    forwardedOptions.KnownNetworks.Clear();
+    forwardedOptions.KnownProxies.Clear();
+    app.UseForwardedHeaders(forwardedOptions);
+}
 
 if (app.Environment.IsDevelopment())
 {
