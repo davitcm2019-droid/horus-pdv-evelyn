@@ -377,11 +377,18 @@ BEGIN
     VALUES (N'usr-001', N'empresa-principal', N'06.332.765/0001-05', N'Flávio Oliveira', N'flavio@hpdv.com.br', N'(11) 98888-1111', N'administrador', N'ativo', N'2026-02-10', N'-', N'100000.aG9ydXNwZHZzZWVkMTIzNA==.2rLHDQjZmUF6Oolm44OWtYqIU7b1sXCtUV1XOx1JcWc=', 0);
 END;
 
+-- Login administrador da Evelyn (senha definida na entrega; troca no app depois)
+IF NOT EXISTS (SELECT 1 FROM Usuarios WHERE Email = N'evelyn@evelyn.com')
+BEGIN
+    INSERT INTO Usuarios (Id, CompanyId, Cpf, Name, Email, Phone, Role, Status, CreatedAt, LastLoginAt, PasswordHash, MustChangePassword)
+    VALUES (N'usr-evelyn', N'empresa-principal', N'000.000.000-00', N'Evelyn Zavitoski', N'evelyn@evelyn.com', N'(00) 00000-0000', N'administrador', N'ativo', N'2026-08-27', N'-', N'100000.YEegb783S+sJVnewl8zPkg==.5ZDjkmNvrc9LSjwZSeBmgYR5gbkC0LvBhxsnMBER3Lw=', 0);
+END;
+
 IF EXISTS (SELECT 1 FROM Empresas WHERE Id = N'empresa-principal')
 BEGIN
     UPDATE Empresas
-       SET FantasyName = N'Hórus PDV',
-           CorporateName = N'Hórus PDV LTDA',
+       SET FantasyName = N'Evelyn Acessórios',
+           CorporateName = N'Evelyn Acessórios',
            Cnpj = N'06.332.765/0001-05',
            StateRegistration = N'123.456.789.110',
            Website = N'https://www.horuspdv.com.br',
@@ -411,7 +418,7 @@ BEGIN
          EmailSmtpPort, EmailSmtpEnableSsl, EmailSmtpUser, EmailSmtpPassword, EmailSmtpFromEmail,
          EmailSmtpFromName, EmailSmtpReplyTo)
     VALUES
-        (N'empresa-principal', N'Hórus PDV', N'Hórus PDV LTDA', N'06.332.765/0001-05',
+        (N'empresa-principal', N'Evelyn Acessórios', N'Evelyn Acessórios', N'06.332.765/0001-05',
          N'123.456.789.110', N'https://www.horuspdv.com.br', N'contato@hpdv.com.br',
          N'(11) 3000-1000', N'(11) 3149-5959', N'(11) 98888-1000', N'01310-200',
          N'Avenida Paulista', N'1578', N'Bela Vista', N'São Paulo', N'SP', N'Próximo ao MASP',
