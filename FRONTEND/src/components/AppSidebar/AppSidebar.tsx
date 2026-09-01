@@ -20,6 +20,7 @@ import {
   Repeat2,
   ShoppingCart,
   Store,
+  Tags,
   Truck,
   UserCog,
   UsersRound,
@@ -36,6 +37,7 @@ export type PageKey =
   | "cadastro-produto"
   | "historico-vendas"
   | "relatorios"
+  | "etiquetas"
   | "vendas"
   | "cupom"
   | "pagamentos"
@@ -235,6 +237,13 @@ export default function AppSidebar({
               active={activePage === "relatorios"}
               collapsed={collapsed}
               onClick={() => handleChangePage("relatorios")}
+            />
+            <SidebarItem
+              icon={<Tags size={20} />}
+              label="Etiquetas"
+              active={activePage === "etiquetas"}
+              collapsed={collapsed}
+              onClick={() => handleChangePage("etiquetas")}
             />
             <SidebarItem
               icon={<ShoppingCart size={20} />}

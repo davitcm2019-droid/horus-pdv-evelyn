@@ -37,6 +37,7 @@ const ProductRegisterPage = lazy(
 const SalesHistoryPage = lazy(() => import("@/pages/Admin/SalesHistoryPage"));
 const SalesStartPage = lazy(() => import("@/pages/Admin/SalesStartPage"));
 const ReportsPage = lazy(() => import("@/pages/Admin/ReportsPage"));
+const LabelsPage = lazy(() => import("@/pages/Admin/LabelsPage"));
 const UserAccountsPage = lazy(() => import("@/pages/Admin/UserAccountsPage"));
 const CupomNaoFiscalPage = lazy(() => import("@/pages/Admin/CupomNaoFiscalPage"));
 const PaymentsPage = lazy(() => import("@/pages/Admin/PaymentsPage"));
@@ -115,6 +116,7 @@ export default function App() {
       "cadastro-produto",
       "historico-vendas",
       "relatorios",
+      "etiquetas",
       "vendas",
       "cupom",
       "pagamentos",
@@ -193,6 +195,7 @@ export default function App() {
     "cadastro-produto": "Cadastro de Produto",
     "historico-vendas": "Histórico de Vendas",
     relatorios: "Relatórios",
+    etiquetas: "Etiquetas de Produto",
     vendas: "Iniciar Vendas",
     cupom: "Cupom Não Fiscal",
     pagamentos: "Pagamentos Integrados",
@@ -224,6 +227,8 @@ export default function App() {
         return SalesHistoryPage;
       case "relatorios":
         return ReportsPage;
+      case "etiquetas":
+        return LabelsPage;
       case "cupom":
         return CupomNaoFiscalPage;
       case "pagamentos":
