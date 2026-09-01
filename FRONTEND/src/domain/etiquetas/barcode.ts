@@ -92,9 +92,16 @@ export function renderBarcodeSvg(
     return null;
   }
 
-  const width = Number(svg.getAttribute("width"));
-  const height = Number(svg.getAttribute("height"));
-  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0) {
+  // O JsBarcode grava as medidas com unidade (ex.: "190px"), então é parseFloat
+  // e não Number: Number("190px") é NaN e descartaria todo SVG válido.
+  const width = Number.parseFloat(svg.getAttribute("width") ?? "");
+  const height = Number.parseFloat(svg.getAttribute("height") ?? "");
+  if (
+    !Number.isFinite(width) ||
+    !Number.isFinite(height) ||
+    width <= 0 ||
+    height <= 0
+  ) {
     return null;
   }
 

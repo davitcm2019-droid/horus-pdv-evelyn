@@ -26,6 +26,12 @@ export type EtiquetaConfig = {
   mediaMode: EtiquetaMediaMode;
   /** Altura reservada para o código de barras, em milímetros. */
   barcodeHeightMm: number;
+  /**
+   * Margem branca de cada lado das barras (quiet zone), em milímetros.
+   * Sem ela o leitor não identifica onde o código começa e termina.
+   * EAN-13 pede cerca de 2,3mm à esquerda; Code 128 é mais tolerante.
+   */
+  barcodeQuietZoneMm: number;
   /** Exibe o nome fantasia da loja no topo da etiqueta. */
   showStoreName: boolean;
   /** Nome da loja impresso quando showStoreName está ativo. */
@@ -56,6 +62,7 @@ export const DEFAULT_ETIQUETA_CONFIG: EtiquetaConfig = {
   marginLeftMm: 0,
   mediaMode: "rolo",
   barcodeHeightMm: 9,
+  barcodeQuietZoneMm: 2,
   showStoreName: false,
   storeName: "",
   showName: true,
@@ -63,6 +70,35 @@ export const DEFAULT_ETIQUETA_CONFIG: EtiquetaConfig = {
   showCode: true,
   showPrice: true,
 };
+
+/** Recuo interno horizontal da etiqueta, em milímetros (espelha o CSS de impressão). */
+export const LABEL_PADDING_X_MM = 1;
+
+/** Largura nominal do módulo (barra mais fina) do EAN-13, em milímetros. */
+const EAN13_NOMINAL_MODULE_MM = 0.33;
+
+/** Um EAN-13 ocupa 95 módulos entre a primeira e a última barra. */
+const EAN13_MODULES = 95;
+
+/** Largura disponível para as barras dentro da etiqueta, em milímetros. */
+export function getBarcodeUsableWidthMm(config: EtiquetaConfig): number {
+  return Math.max(
+    0,
+    config.labelWidthMm -
+      2 * (LABEL_PADDING_X_MM + config.barcodeQuietZoneMm),
+  );
+}
+
+/**
+ * Fator de ampliação do EAN-13 resultante das medidas atuais.
+ *
+ * A norma admite de 0,80 a 2,00; abaixo de 0,80 as barras ficam finas demais
+ * para a resolução da térmica e a leitura começa a falhar.
+ */
+export function getEan13Magnification(config: EtiquetaConfig): number {
+  const moduleMm = getBarcodeUsableWidthMm(config) / EAN13_MODULES;
+  return moduleMm / EAN13_NOMINAL_MODULE_MM;
+}
 
 /** Largura total da mídia derivada da configuração, em milímetros. */
 export function getMediaWidthMm(config: EtiquetaConfig): number {

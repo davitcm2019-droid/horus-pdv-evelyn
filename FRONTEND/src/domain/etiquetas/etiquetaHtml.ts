@@ -7,6 +7,7 @@ import { renderBarcodeSvg } from "./barcode";
 import {
   getMediaWidthMm,
   getRowHeightMm,
+  LABEL_PADDING_X_MM,
   type EtiquetaConfig,
 } from "./etiquetaConfig";
 
@@ -213,7 +214,7 @@ export function buildEtiquetaPrintHtml(
   .label {
     width: ${config.labelWidthMm}mm;
     height: ${config.labelHeightMm}mm;
-    padding: 0.8mm 1mm;
+    padding: 0.8mm ${LABEL_PADDING_X_MM}mm;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -246,9 +247,14 @@ export function buildEtiquetaPrintHtml(
     word-break: break-word;
   }
 
+  /*
+   * O padding lateral é a quiet zone: a faixa branca que o leitor usa para
+   * delimitar o código. Sem ela, um EAN-13 impresso até a borda não é lido.
+   */
   .barcode {
     width: 100%;
     height: ${config.barcodeHeightMm}mm;
+    padding: 0 ${config.barcodeQuietZoneMm}mm;
     display: flex;
     align-items: stretch;
     justify-content: center;

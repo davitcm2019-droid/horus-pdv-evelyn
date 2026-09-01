@@ -22,6 +22,7 @@ import { productService, type ProductDto } from "@/services/api/productService";
 import { detectSymbology } from "@/domain/etiquetas/barcode";
 import {
   DEFAULT_ETIQUETA_CONFIG,
+  getEan13Magnification,
   getMediaWidthMm,
   loadEtiquetaConfig,
   saveEtiquetaConfig,
@@ -203,6 +204,16 @@ export default function LabelsPage() {
   };
 
   const mediaWidthMm = getMediaWidthMm(config);
+  const ean13Magnification = getEan13Magnification(config);
+  // A norma do EAN-13 admite de 0,80 a 2,00 de ampliação.
+  const ean13TooSmall = ean13Magnification < 0.8;
+  const hasEan13Selected = useMemo(
+    () =>
+      selectedProducts.some(
+        (product) => detectSymbology(product.productCode) === "EAN13",
+      ),
+    [selectedProducts],
+  );
 
   return (
     <PageLayout
@@ -469,6 +480,14 @@ export default function LabelsPage() {
                 onChange={(value) => set("barcodeHeightMm", value)}
               />
               <NumberField
+                label="Margem das barras (mm)"
+                value={config.barcodeQuietZoneMm}
+                min={0}
+                max={10}
+                step={0.5}
+                onChange={(value) => set("barcodeQuietZoneMm", value)}
+              />
+              <NumberField
                 label="Espaço entre colunas (mm)"
                 value={config.gapXMm}
                 min={0}
@@ -507,6 +526,17 @@ export default function LabelsPage() {
               <strong>{mediaWidthMm.toFixed(1)}mm</strong>. Confira se bate com o
               rolo instalado — se não bater, as colunas saem deslocadas.
             </InfoNote>
+
+            {ean13TooSmall && hasEan13Selected ? (
+              <InfoNote tone="warning">
+                Com estas medidas o EAN-13 fica em{" "}
+                <strong>{Math.round(ean13Magnification * 100)}%</strong> do
+                tamanho nominal, abaixo dos 80% que a norma permite. As barras
+                podem não ser lidas. Reduza a{" "}
+                <strong>margem das barras</strong> ou use uma etiqueta mais
+                larga. Teste com o leitor antes de imprimir a tiragem toda.
+              </InfoNote>
+            ) : null}
           </section>
 
           <section className="card space-y-4 p-5">
