@@ -49,6 +49,21 @@ export type EtiquetaConfig = {
 export const ETIQUETA_CONFIG_STORAGE_KEY = "horuspdv.etiquetas.config";
 
 /**
+ * Versão do formato/calibração salvos.
+ *
+ * Suba este número sempre que corrigir uma MEDIDA padrão. Configuração
+ * gravada com versão anterior é descartada, porque senão o valor errado
+ * gravado no navegador continua vencendo o padrão corrigido — e o usuário
+ * não tem como saber disso.
+ *
+ * 1 - versão inicial (assumia 2mm entre colunas)
+ * 2 - calibrado para o rolo Artgraf: colunas coladas, margem 3,5mm, rolo 109mm
+ */
+export const ETIQUETA_CONFIG_VERSION = 2;
+
+type StoredEtiquetaConfig = Partial<EtiquetaConfig> & { version?: number };
+
+/**
  * Padrão calibrado para o rolo couchê 34x23mm x 3 colunas da Artgraf.
  *
  * Especificação do fabricante: colunas UNIDAS (sem espaçamento horizontal),
@@ -125,24 +140,34 @@ export function getRowHeightMm(config: EtiquetaConfig): number {
   return config.labelHeightMm + config.gapYMm;
 }
 
-/** Carrega a configuração salva, mesclada sobre os padrões (tolerante a chaves ausentes). */
+/**
+ * Carrega a configuração salva, mesclada sobre os padrões.
+ *
+ * Configuração gravada por uma versão anterior é ignorada: as medidas padrão
+ * mudaram e manter o valor antigo faria a impressão sair errada silenciosamente.
+ */
 export function loadEtiquetaConfig(): EtiquetaConfig {
   if (typeof window === "undefined") return { ...DEFAULT_ETIQUETA_CONFIG };
   try {
     const raw = window.localStorage.getItem(ETIQUETA_CONFIG_STORAGE_KEY);
     if (!raw) return { ...DEFAULT_ETIQUETA_CONFIG };
-    const parsed = JSON.parse(raw) as Partial<EtiquetaConfig>;
+
+    const { version, ...parsed } = JSON.parse(raw) as StoredEtiquetaConfig;
+    if (version !== ETIQUETA_CONFIG_VERSION) {
+      return { ...DEFAULT_ETIQUETA_CONFIG };
+    }
+
     return { ...DEFAULT_ETIQUETA_CONFIG, ...parsed };
   } catch {
     return { ...DEFAULT_ETIQUETA_CONFIG };
   }
 }
 
-/** Persiste a configuração no navegador. */
+/** Persiste a configuração no navegador, carimbada com a versão atual. */
 export function saveEtiquetaConfig(config: EtiquetaConfig): void {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(
     ETIQUETA_CONFIG_STORAGE_KEY,
-    JSON.stringify(config),
+    JSON.stringify({ ...config, version: ETIQUETA_CONFIG_VERSION }),
   );
 }
