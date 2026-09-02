@@ -49,20 +49,30 @@ export type EtiquetaConfig = {
 export const ETIQUETA_CONFIG_STORAGE_KEY = "horuspdv.etiquetas.config";
 
 /**
- * Padrão do rolo mais comum no varejo brasileiro: 34x23mm em 3 colunas.
- * O gap horizontal de 2mm resulta em mídia de 106mm (3*34 + 2*2).
+ * Padrão calibrado para o rolo couchê 34x23mm x 3 colunas da Artgraf.
+ *
+ * Especificação do fabricante: colunas UNIDAS (sem espaçamento horizontal),
+ * 2mm entre linhas, rolo de 109mm, tubete de 1 polegada, 3.600 etiquetas em
+ * 30 metros.
+ *
+ * Confere: 3*34 + 2*3,5 de margem = 109mm de largura; e 30.000mm / (23+2)mm
+ * = 1.200 linhas x 3 colunas = 3.600 etiquetas, exatamente o que o
+ * fabricante informa.
+ *
+ * Como as colunas são coladas, a quiet zone do código de barras precisa sair
+ * inteira de dentro dos 34mm da própria etiqueta — não há folga entre elas.
  */
 export const DEFAULT_ETIQUETA_CONFIG: EtiquetaConfig = {
   labelWidthMm: 34,
   labelHeightMm: 23,
   columns: 3,
-  gapXMm: 2,
+  gapXMm: 0,
   gapYMm: 2,
   marginTopMm: 0,
-  marginLeftMm: 0,
+  marginLeftMm: 3.5,
   mediaMode: "rolo",
   barcodeHeightMm: 9,
-  barcodeQuietZoneMm: 2,
+  barcodeQuietZoneMm: 2.5,
   showStoreName: false,
   storeName: "",
   showName: true,
